@@ -42,7 +42,7 @@
                   <li v-for="(item,index) in productList">
                     <div class="cart-tab-1">
                       <div class="cart-item-check">
-                        <a href="javascript:void 0" class="item-check-btn">
+                        <a href="javascript:void 0" class="item-check-btn" v-bind:class="{'check':item.checked}" @click="selectedProduct(item)"><!--使用v-bind绑定元素{}表示对象-->
                           <svg class="icon icon-ok"><use xlink:href="#icon-ok"></use></svg>
                         </a>
                       </div>
@@ -66,9 +66,9 @@
                       <div class="item-quantity">
                         <div class="select-self select-self-open">
                           <div class="quantity">
-                            <a href="javascript:void 0">-</a>
+                            <a href="javascript:void 0" @click="changeMoney(item,-1)">-</a>
                             <input type="text" value="0" disabled v-model="item.productQuantity"><!--双向数据绑定，productQuentiy变化时，下面的数据也同步变化-->
-                            <a href="javascript:void 0">+</a>
+                            <a href="javascript:void 0"  @click="changeMoney(item,1)">+</a>
                           </div>
                         </div>
                         <div class="item-stock">有货</div>
@@ -80,7 +80,7 @@
                     <div class="cart-tab-5">
                       <div class="cart-item-operation">
                         <a href="javascript:void 0" class="item-edit-btn">
-                          <svg class="icon icon-del"><use xlink:href="#icon-del" ></use></svg>
+                          <svg class="icon icon-del"><use xlink:href="#icon-del" >编辑</use></svg>
                         </a>
                       </div>
                     </div>
@@ -94,14 +94,14 @@
               <div class="cart-foot-l">
                 <div class="item-all-check">
                   <a href="javascript:void 0">
-                    <span class="item-check-btn" >
+                    <span class="item-check-btn" :class="{'check':checkAllFlag}" @click="checkAll(true)" >
                       <svg class="icon icon-ok"><use xlink:href="#icon-ok"></use></svg>
                     </span>
                     <span>全选</span>
                   </a>
                 </div>
                 <div class="item-all-del">
-                  <a href="javascript:void 0" class="item-del-btn">
+                  <a href="javascript:void 0" class="item-del-btn" @click="checkAll(false)">
                     <span>取消全选</span>
                   </a>
                 </div>
