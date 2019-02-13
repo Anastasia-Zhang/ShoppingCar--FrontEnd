@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:v-bind="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
     <meta charset="utf-8">
@@ -39,7 +39,7 @@
                   </ul>
                 </div>
                 <ul class="cart-item-list">
-                  <li>
+                  <li v-for="(item,index) in productList">
                     <div class="cart-tab-1">
                       <div class="cart-item-check">
                         <a href="javascript:void 0" class="item-check-btn">
@@ -47,27 +47,27 @@
                         </a>
                       </div>
                       <div class="cart-item-pic">
-                        <img src="img/goods-1.jpg" alt="烟">
+                        <img v-bind:src="item.productImage" alt="烟"><!--vue实例初始化之后添加一个src属性，否则src当做字符串-->
                       </div>
                       <div class="cart-item-title">
-                        <div class="item-name">黄鹤楼香烟</div>
+                        <div class="item-name">{{item.productName}}</div>
                       </div>
                       <div class="item-include">
                         <dl>
                           <dt>赠送:</dt>
-                          <dd>打火机</dd>
+                          <dd v-for = "part in item.parts" v-text="part.partsName">打火机</dd>
                         </dl>
                       </div>
                     </div>
                     <div class="cart-tab-2">
-                      <div class="item-price"></div>
+                      <div class="item-price">{{item.productPrice}}</div>
                     </div>
                     <div class="cart-tab-3">
                       <div class="item-quantity">
                         <div class="select-self select-self-open">
                           <div class="quantity">
                             <a href="javascript:void 0">-</a>
-                            <input type="text" value="0" disabled>
+                            <input type="text" value="0" disabled v-model="item.productQuantity"><!--双向数据绑定，productQuentiy变化时，下面的数据也同步变化-->
                             <a href="javascript:void 0">+</a>
                           </div>
                         </div>
@@ -75,7 +75,7 @@
                       </div>
                     </div>
                     <div class="cart-tab-4">
-                      <div class="item-price-total">0.00</div>
+                      <div class="item-price-total">{{item.productPrice * item.productQuantity}}</div>
                     </div>
                     <div class="cart-tab-5">
                       <div class="cart-item-operation">
