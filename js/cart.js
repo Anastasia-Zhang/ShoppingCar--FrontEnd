@@ -1,8 +1,13 @@
-var vm = new Vue({
+new Vue({
     el:"#app",
     data:{
         totalMoney:0,
         productList:[]
+    },
+    filters:{
+      formatMoney:function (value) {
+          return "￥" + value.toFixed(2);
+      }  
     },
     mounted:function(){
       this.cartView();
@@ -17,3 +22,7 @@ var vm = new Vue({
         }
     }
 });
+//全局过滤器
+Vue.filter("money", function (value,type){
+    return value.toFixed(2) + type;
+})
