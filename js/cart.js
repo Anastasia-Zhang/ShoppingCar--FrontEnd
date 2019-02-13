@@ -3,7 +3,9 @@ new Vue({
     data:{
         totalMoney:0,
         productList:[],
-        checkAllFlag:false//item是循环，无法直接从外面全局定义,全选可以
+        checkAllFlag:false,//item是循环，无法直接从外面全局定义,全选可以
+        delFlag:false,
+        curProduct:''//当前商品
     },
     filters:{
       formatMoney:function (value) {
@@ -30,6 +32,7 @@ new Vue({
                     product.productQuantity=1;
                 }
             }
+            this.calcTotalPrice();
         },
         selectedProduct:function (item) {
             if(typeof item.checked == 'undefined'){//看data里面有无变量
@@ -39,6 +42,7 @@ new Vue({
                 //商品选择、不选择
                 item.checked = !item.checked;
             }
+            this.calcTotalPrice();
         },
         checkAll:function (flag) {
             this.checkAllFlag = flag;
@@ -54,6 +58,26 @@ new Vue({
                     item.checked = _this.checkAllFlag;
                 }
             });
+            this.calcTotalPrice();
+        },
+        calcTotalPrice:function () {
+            var _this = this;
+            _this.totalMoney = 0;
+            this.productList.forEach(function (item,index) {
+                //若商品选中
+                if(item.checked){
+                    _this.totalMoney += item.productPrice * item.productQuantity;
+                }
+            });
+        },
+        delConfirm:function (item) {
+            this.delFlag = true;
+            this.curProduct = item;//确定当前删除商品
+        },
+        delProduct:function () {
+            var index = this.productList.indexOf(this.curProduct);//获取当前产品索引
+            this.productList.splice(index,1);//(从当前元素开始删除，每次删掉一个元素)
+            this.delFlag = false;
         }
 
     }
